@@ -26,6 +26,7 @@ stop_words=set(stopwords.words("english"))
 
 lemmatizer=WordNetLemmatizer()
 
+#procesa consulta individual
 def query_preprocessing(query):
     
     query_terms_freq={}
