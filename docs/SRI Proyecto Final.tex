@@ -82,6 +82,7 @@
 	
 	\subsection{Ideas interesantes}
 	
+	\subsubsection{Usar diccionarios para representar a los vectores y las consultas}
 	Una idea interesante que utilizamos para representar lo que son los vectores en la teor\'ia como los vectores de los t\'erminos y de pesos tanto de los documentos como de las consultas, en lugar de como vectores los implementamos como diccionarios, tal que la clave es el t\'ermino $i$ (preprocesado) y la clave seg\'un cual sea el diccionario, ser\'ia la frecuencia o el peso del t\'ermino en un documento o consulta en espec\'ifico. 
 	
 	Esto lo hacemos debido a la gran cantidad de t\'erminos que pudieran haber una colecci\'on grande de t\'erminos y representar cada documento mediante un vector de longitud igual a la cantidad total de t\'erminos distintos ser\'ia altamente costoso en memoria y en tiempo de ejecuci\'on. Adem\'as de la gran probabilidad de que la matriz conformada por los vectores de frecuencia de los t\'erminos y en consecuencia la matriz formada por los vectores de pesos de los t\'erminos en los documentos sean muy esparcidas, pues lo m\'as probable, si se tiene una colecci\'on grande de documentos, es que un t\'ermino $t_i$, si es relevante, aparezca en una cantidad muy inferior de documentos con respecto al total de los mismos.
@@ -98,6 +99,9 @@
 	
 	Por tanto llegamos a la conclusi\'on que para calcular la similitud entre una consulta y un documento solo necesitamos los t\'erminos que aparecen en el documento o en la consulta.
 	
+	 \subsubsection{Guardar volúmenes de informaci\'on en .json, sobre todo aquellas que se utilizan mucho} De esta forma se devid\'ia la ejecuci\'on en partes, en vez de hacerlo todo de una vez lo cual se demorar\'ia un tiempo considerable y adem\'as cada vez que se quisiera correr el sistema se estar\'ian haciendo los mismos c\'alculos. Algunos objetos guardados en .json son la representaci\'on de los vectores y las consultas y un diccionario que contiene a cada t\'ermino con su respectivo $idfs$.
+	
+	\subsubsection{Utilizar un heap para llevar el ranking de similitud de una consulta}
 		
 	\section{Implementaci\'on del sistema}
 	

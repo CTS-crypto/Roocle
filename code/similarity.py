@@ -24,16 +24,21 @@ def sim_docs_query(docs,query,m):
     
     for doc in docs:
         n+=1
-        sim=sim_doc_query(doc, query)*(-1)
+        sim=sim_doc_query(doc, query)
         if sim !=0:
-            heapq.heappush(heap, (sim,n))
-        if len(heap)>m:
-            heap.pop()
+            if len(heap)==m:
+                heapq.heappushpop(heap, (sim,n))
+            else:
+                heapq.heappush(heap, (sim,n))
     
-    result=[]
     total=len(heap)
+    index=total-1
+    result=[0 for i in range(total)]
+    
     for i in range(total):
-        result.append(heapq.heappop(heap)[1])
+        doc=heapq.heappop(heap)[1]
+        result[index]=doc
+        index-=1
         
     return result
 
@@ -57,6 +62,7 @@ recovered_documents=json.load(file)
 file.close()
 
 
-
+index=1
 for sim in sim_docs_queries(docs, queries,recovered_documents):
-    print(sim)
+    print(index,sim)
+    index+=1

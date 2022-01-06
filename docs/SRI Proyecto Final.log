@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2021.10.11)  5 JAN 2022 23:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2021.10.11)  6 JAN 2022 00:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -352,15 +352,18 @@ Overfull \hbox (3.94376pt too wide) in paragraph at lines 76--77
  el rendimiento
  []
 
-[2] [3]
+[2]
+Missing character: There is no Ã in font cmbx10!
+Missing character: There is no º in font cmbx10!
+ [3]
 
-LaTeX Warning: Empty `thebibliography' environment on input line 130.
+LaTeX Warning: Empty `thebibliography' environment on input line 134.
 
 [4] (./SRI Proyecto Final.aux) ) 
 Here is how much of TeX's memory you used:
  2851 strings out of 494861
  37455 string characters out of 6178803
- 120221 words of memory out of 5000000
+ 121221 words of memory out of 5000000
  6120 multiletter control sequences out of 15000+600000
  6279 words of font info for 23 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
@@ -378,7 +381,7 @@ st/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmtt10.pfb>
-Output written on "SRI Proyecto Final.pdf" (4 pages, 157625 bytes).
+Output written on "SRI Proyecto Final.pdf" (4 pages, 160386 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  49 compressed objects within 1 object stream
