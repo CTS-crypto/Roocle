@@ -27,7 +27,7 @@ stop_words=set(stopwords.words("english"))
 lemmatizer=WordNetLemmatizer()
 
 #procesa consulta individual
-def query_preprocessing(query):
+def query_preprocessing(query,idfs):
     
     query_terms_freq={}
     max_freq=0
@@ -41,7 +41,7 @@ def query_preprocessing(query):
             gramatical_root=lemmatizer.lemmatize(item[0],tags_code[item[1]])
         else:
             gramatical_root=lemmatizer.lemmatize(item[0])
-        if gramatical_root not in stop_words:
+        if gramatical_root not in stop_words and gramatical_root in idfs:
             if gramatical_root in query_terms_freq:
                 query_terms_freq[gramatical_root]+=1
             else:
@@ -52,7 +52,7 @@ def query_preprocessing(query):
     
 
 #Preprocesamiento de las consultas. Devuele un diccionario por cada consulta que indica la fecuencia de cada termino en la consulta, ademas de un entero que indica a frecuencia maxima de un termino en la consulta 
-def queries_preprocessing():
+def queries_preprocessing(idfs):
     file=open("cran/cran.qry")
     query_terms_freq=None
     max_freq=0
@@ -74,7 +74,7 @@ def queries_preprocessing():
                     gramatical_root=lemmatizer.lemmatize(item[0],tags_code[item[1]])
                 else:
                     gramatical_root=lemmatizer.lemmatize(item[0])
-                if gramatical_root not in stop_words:
+                if gramatical_root not in stop_words and gramatical_root in idfs:
                     if gramatical_root in query_terms_freq:
                         query_terms_freq[gramatical_root]+=1
                     else:

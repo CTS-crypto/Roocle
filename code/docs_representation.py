@@ -19,7 +19,7 @@ def calculate_tfijs(terms_freq_doc):
         yield tfj
 
 #calcula los vectores de pesos de los documentos
-def calculate_weigths(terms_freq_doc):
+def calculate_weigths(terms_freq_doc,idfs):
     
     vecs_docs=[]
     
@@ -32,7 +32,7 @@ def calculate_weigths(terms_freq_doc):
     return vecs_docs
 
 idfs=calculate_idfs(cran_preprocessing())
-vecs_docs=calculate_weigths(terms_freq_doc())
+vecs_docs=calculate_weigths(terms_freq_doc(),idfs)
 
 #guarda los pesos
 with open('vecs_docs.json','w') as fout:

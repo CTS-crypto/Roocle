@@ -1,0 +1,132 @@
+\documentclass[runningheads]{llncs}
+\usepackage{graphicx}
+\usepackage{diagbox}
+%
+\begin{document}
+	\hyphenation{}
+	
+	\title{Proyecto Final de Sistemas de Recuperaci\'on de Informaci\'on}
+	
+	\author{Rocio Ortiz Gancedo \and Carlos Toledo Silva}
+	
+	\institute{Universidad de La Habana, Cuba}
+	
+	\titlerunning{Proyecto Final de Sistemas de Recuperaci\'on de Informaci\'on}
+	
+	\maketitle
+	
+	\begin{abstract}
+		
+	\end{abstract}
+
+	\section{Introducci\'on}
+
+	\section{Dise\~{n}o del sistema}
+	
+	\subsection{Recordatorio de las caracter\'isticas del modelo vectorial}
+	
+	En el modelo vectorial, el peso $w_{i,j}$ asociado al par $(t_i,d_j)$ (siendo $t_i$ el t\'ermino $i$ y $d_j$ el documento $j$) es positivo y no binario. A su vez, los t\'erminos en la consulta est\'an ponderados. Sea $w_{i,q}$ el peso asociado al par $(t_i,q)$ (siendo $q$ una consulta), donde $w_{i,q}\geq 0$. Entonces, el vector consulta $q$ se define como $\overrightarrow{q}=(w_{1q},w_{2q},...,w_{nq})$ donde $n$ es la cantidad total de t\'erminos indexados en el sistema. El vector de un documento $d_j$ se representa por $\overrightarrow{d_j}=(w_{1j},w_{2j},...,w_{nj})$.
+	
+	La correlaci\'on se calcula utilizando el coseno del \'angulo comprendido entre los vectores documentos $dj$ y la consulta $q$.
+	
+	\begin{equation}
+		sim(d_j,q)=\frac{\overrightarrow{d_j}\cdot\overrightarrow{q}}{|\overrightarrow{d_j}|\cdot|\overrightarrow{q}|}
+	\end{equation}
+
+	\begin{equation}	
+		sim(d_j,q)=\frac{\sum_{i=1}^{n}w_{i,j}\cdot w_{i,q}}{\sqrt{\sum_{i=1}^{n}w_{i,j}^2}\cdot\sqrt{\sum_{i=1}^{n}w_{i,q}^2}}
+	\end{equation}  
+
+	Sea $freq_{i,j}$ la frecuencia del t\'ermino $t_i$ en el documento $d_j$. Entonces, la frecuencia normalizada $tf_{i,j}$ del t\'ermino $t_i$ en el documento $d_j$ est\'a dada por:
+	
+	\begin{equation}
+		tf_{i,j}=\frac{freq_{i,j}}{max_lfreq_{l,j}}
+	\end{equation}
+
+	donde el m\'aximo se calcula sobre todos los t\'erminos del documento $d_j$. Si el t\'ermino $t_i$ no aparece en el documento $d_j$ entonces $tf_{i,j}=0$.
+	
+	Sea $N$ la cantidad total de documentos en el sistema y $n_i$ la cantidad de documentos en los que aparece el t\'ermino $t_i$. La frecuencia de ocurrencia de un t\'ermino $t_i$ dentro de todos los documentos de la colecci\'on $idf_i$ est\'a dada por:
+	
+	\begin{equation}
+		idf_i=\log \frac{N}{n_i}
+	\end{equation}
+
+	El peso del t\'ermino $t_i$ en el documento $d_j$ est\'a dado por:
+	
+	\begin{equation}
+		w_{i,j}=tf_{i,j}\cdot idf_i
+	\end{equation}
+
+	El c\'alculo de los pesos en la consulta $q$ se hace de la siguiente forma:
+	
+	\begin{equation}
+		w_{i,q}=\left\{\begin{array}{c}
+			0,~si~freq_{i,q}=0\\
+			\left(a+(1-a)\frac{freq_{i,q}}{max_lfreq_{l,q}}\right)\cdot\log \frac{N}{n_i},~en~otro~caso
+		\end{array}\right. 
+	\end{equation}
+
+	donde $freq_{i,q}$ es la frecuencia del t\'ermino $t_i$ en el texto de la consulta $q$. El t\'ermino $a$ es de suavizado y permite amortiguar la contribuci\'on de la frecuencia del t\'ermino, toma un valor en 0 y 1. Los valores m\'as usados son 0.4 y 0.5. 
+	
+	\subsection{\textquestiondown Por qu\'e seleccionamos el modelo vectorial?}
+	
+	Se seleccion\'o el modelo vectorial primeramente por la amplia cantidad de elementos impartidos durante el curso sobre este modelo. Adem\'as este presenta las siguientes ventajas:
+	
+	\begin{itemize}
+		\item El esquema de ponderaci\'on $tf-idf$ para los documentos mejora el rendimiento de la recuperaci\'on.
+		\item La estrategia de coincidencia parcial permite la recuperaci\'on de documentos que se aproximen a los requerimientos de la consulta.
+		\item La f\'ormula del coseno ordena los documentos de acuerdo al grado de similitud.
+	\end{itemize}
+
+	Adem\'as de estas ventajas tambi\'en cabe destacar la muy buena posibilidad de retroalimentaci\'on que admite este modelo.
+	
+	\subsection{Ideas interesantes}
+	
+	Una idea interesante que utilizamos para representar lo que son los vectores en la teor\'ia como los vectores de los t\'erminos y de pesos tanto de los documentos como de las consultas, en lugar de como vectores los implementamos como diccionarios, tal que la clave es el t\'ermino $i$ (preprocesado) y la clave seg\'un cual sea el diccionario, ser\'ia la frecuencia o el peso del t\'ermino en un documento o consulta en espec\'ifico. 
+	
+	Esto lo hacemos debido a la gran cantidad de t\'erminos que pudieran haber una colecci\'on grande de t\'erminos y representar cada documento mediante un vector de longitud igual a la cantidad total de t\'erminos distintos ser\'ia altamente costoso en memoria y en tiempo de ejecuci\'on. Adem\'as de la gran probabilidad de que la matriz conformada por los vectores de frecuencia de los t\'erminos y en consecuencia la matriz formada por los vectores de pesos de los t\'erminos en los documentos sean muy esparcidas, pues lo m\'as probable, si se tiene una colecci\'on grande de documentos, es que un t\'ermino $t_i$, si es relevante, aparezca en una cantidad muy inferior de documentos con respecto al total de los mismos.
+	
+	Adem\'as esto lo podemos hacer debido a que un t\'ermino que no aparezca en un documento, dado que su frecuencia es cero y por como se calculan los pesos y la similitud entre un documento y una consulta, no afecta para nada el c\'alculo de estos par\'ametros. Veamos esto r\'apidamente:
+	
+	Por (2) tenemos en el numerador una sumatoria donde el t\'ermino $i$ de la sumatoria es 0 si $w_{i,j}=0 \lor w_{i,q}=0$. Por (5) tenemos que $w_{i,j}=0$ si $tf_{i,j}=0 \lor idf_i=0$. Luego por (3) tenemos que $tf_{i,j}=0$ si $freq_{i,j}=0$, o sea si el t\'ermino $t_i$ no aparece en el documento $d_j$
+	
+	Para la consulta, por (6) tenemos que si la $freq_{i,q}=0$ entonces $w_{i,q}=0$.
+	
+	Por tanto si el t\'ermino $t_i$ no aparece en el documento o no aparece en la consulta, entonces $t_i$ no influye en la sumatoria del numerador.
+	
+	Pasemos entonces a analizar el denominador. En este tenemos dos sumatorias: una que itera por los cuadrados de los pesos del vector del documento y otra que itera por los cuadrados de los pesos del vector de la consulta. Es evidente que si el peso de $t_i$ en $d_j$ es 0 entonces este no influye en la sumatoria. Lo mismo ocurre si un t\'ermino no aparece en la consulta $q$.
+	
+	Por tanto llegamos a la conclusi\'on que para calcular la similitud entre una consulta y un documento solo necesitamos los t\'erminos que aparecen en el documento o en la consulta.
+	
+		
+	\section{Implementaci\'on del sistema}
+	
+	\subsection{Preprocesamiento de los documentos}
+	
+	Las funciones para el preprocesamiento de los documentos de la colecci\'on Cranfield las podemos encontrar en ``cran\_preprocess.py''. Primero tenemos la funci\'on \verb|cran_preprocessing| la cual, a partir de la colecci\'on de documentos, devuelve un diccionario cuyas llaves son los t\'erminos que aparecen en los documentos y el valor asociado a cada t\'ermino es el conjunto de los documentos en los que aparece dicho t\'ermino. Los t\'erminos a su vez son sometidos a un preprocesamiento y para esto utilizamos la librer\'ia \verb|nltk|.
+	
+	El proceso de tokenizaci\'on se hace mediante la funci\'on \verb|word_tokenize| la cual a partir de un texto(por defecto en ingl\'es) devuelve los diferentes tokens de dicho texto. Luego los tokens son clasificados sint\'acticamente y etiquetados con dicha clasificaci\'on mediante el m\'etodo \verb|pos_tag|. Esto se hace pues para el proceso de ``\textit{lemmatizing}''(llevar las palabras a su ra\'iz gramatical) que es el proceso que viene a continuaci\'on, tener los tokens clasificados mejora el rendimiento de este proceso. Despu\'es de realizado
+	el proceso de \textit{lemmatizing}, se chequea si los t\'erminos obtenidos son ``\textit{stopwords}''(palabras que no proveen informaci\'on \'util). Si un t\'ermino $i$ no es una \textit{stopword}, si no est\'a en el diccionario, se a\~{n}ade como llave y se crea un conjunto con el documento actual. Si ya est\'a el t\'ermino en el diccionario entonces se a\~{n}ade al conjunto correspondiente al t\'ermino el documento actual. Como es un conjunto si el documento ya est\'a en el conjunto, este no se agregar\'a. Para saber el documento actual y la cantidad que de documentos que se ha visto simplemente se aumenta la variable \verb|actual_document|.
+	
+	Debido a que se analizan todos los documentos de una colecci\'on y de cada uno de estos se analizan todos sus t\'erminos, asumiendo que todas las operaciones que se realizan sobre un token se hacen en $O(1)$, llegamos a la conclusi\'on que una llamada a esta funci\'on tiene una complejidad temporal $O(n\cdot m)$; siendo $n$ la cantidad total de documentos y $m$ la cantidad de tokens del documento que mayor cantidad de tokens tiene.
+	
+	La otra funci\'on que aparece en este archivo es \verb|terms_freq_doc|, la cual devuelve de forma perezosa un diccionario para cada documento de la colecci\'on y un valor entero. El diccionario tiene como llaves los t\'erminos que aparecen en dicho documento y el valor asociado a cada t\'ermino es la frecuencia del t\'ermino en el documento. El n\'umero entero que se devuelve junto con el diccionario es la frecuencia del t\'ermino de mayor frecuencia en el documento. Cada vez que se detecte un documento nuevo, se crea un diccionario y un entero inicializado con 0. El procesamiento de los t\'erminos se hace de forma similar que en el m\'etodo anterior. Por cada t\'ermino $i$ en el documento $j$ se verifica si ya este fue agregado al diccionario. En caso afirmativo se incrementa en 1 su valor asociad y en caso contrario se agreg\'a el t\'ermino al diccionario, asoci\'andole 1 como valor, pues es la primera vez que se detecta. Despu\'es de esto se comprueba si dado este aumento la frecuencia del t\'ermino aument\'o, de tal forma que se hizo mayor que la m\'axima frecuencia registrada detectada hasta el momento para el documento. De ocurrir lo antes planteado se actualiza entonces la m\'axima frecuencia detectada (la variable \verb|max_freq|). Cada vez que se termine de analizar un documento se devuelve el diccionario y el entero antes mencionado.
+	
+	Como se explic\'o una ejecuci\'on completa de este m\'etodo analiza cada uno de los documentos y sus tokens. Adem\'as realiza una gran cantidad de operaciones similares al anterior y las que tiene diferente con respecto al otro tienen una complejidad temporal despreciable (son $O(1)$). Por tanto llegamos a la conclusi\'on que una ejecuci\'on completa de este m\'etodo es $O(n*m)$, siendo $n$ y $m$ los mismos valores mencionados anteriormente.
+	
+	\subsection{Representaci\'on de los documentos}
+	
+	 
+	
+	\section{An\'alisis de los resultados del sistema}
+	
+	
+	\section{Conclusiones}
+	
+	
+	
+	\begin{thebibliography}{1}
+		
+	\end{thebibliography}
+
+\end{document}

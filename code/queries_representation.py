@@ -15,13 +15,12 @@ def calculate_weigths_queries(a,idfs,terms_freq):
     for tfj in calculate_tfijs(terms_freq):
         vec_weigths={}
         for term in tfj:
-            if term in idfs:
-                vec_weigths[term]=(a+(1-a)*tfj[term])*idfs[term]
+            vec_weigths[term]=(a+(1-a)*tfj[term])*idfs[term]
         vecs_queries.append(vec_weigths)
         
     return vecs_queries
 
-vecs_queries=calculate_weigths_queries(0.5, idfs, queries_preprocessing())
+vecs_queries=calculate_weigths_queries(0.5, idfs, queries_preprocessing(idfs))
 recovered_documents=cran_recovered_documents()
 
 #guarda los vectores de pesos para las consultas
