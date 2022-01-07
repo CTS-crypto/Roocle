@@ -101,13 +101,13 @@
 	
 	 \subsubsection{Guardar volúmenes de informaci\'on en .json, sobre todo aquellas que se utilizan mucho} De esta forma se devid\'ia la ejecuci\'on en partes, en vez de hacerlo todo de una vez lo cual se demorar\'ia un tiempo considerable y adem\'as cada vez que se quisiera correr el sistema se estar\'ian haciendo los mismos c\'alculos. Algunos objetos guardados en .json son la representaci\'on de los vectores y las consultas y un diccionario que contiene a cada t\'ermino con su respectivo $idfs$.
 	
-	\subsubsection{Utilizar un heap para llevar el ranking de similitud de una consulta}
+	\subsubsection{Utilizar un heap para llevar el ranking de similitud de una consulta} Utilizando esta estructura llevamos un orden parcial de las similitudes de una consulta con los documentos en el sistema. Adem\'as el tama\~{n}o del heap se fija seg\'un la cantidad de documentos que se deseen recuperar para cada consulta, para de esta forma evitar que el heap crezca indefinidamente.
 		
 	\section{Implementaci\'on del sistema}
 	
 	\subsection{Preprocesamiento de los documentos}
 	
-	Las funciones para el preprocesamiento de los documentos de la colecci\'on Cranfield las podemos encontrar en ``cran\_preprocess.py''. Primero tenemos la funci\'on \verb|cran_preprocessing| la cual, a partir de la colecci\'on de documentos, devuelve un diccionario cuyas llaves son los t\'erminos que aparecen en los documentos y el valor asociado a cada t\'ermino es el conjunto de los documentos en los que aparece dicho t\'ermino. Los t\'erminos a su vez son sometidos a un preprocesamiento y para esto utilizamos la librer\'ia \verb|nltk|.
+	Las funciones para el preprocesamiento de los documentos de la colecci\'on Cranfield las podemos encontrar en ``cran\_preprocess.py''. Primero tenemos la funci\'on \verb|cran_preprocessing| la cual, a partir de la colecci\'on de documentos, devuelve un diccionario tal que las llaves son los t\'erminos que aparecen en los documentos y el valor asociado a cada t\'ermino es el conjunto de los documentos en los que aparece dicho t\'ermino. Los t\'erminos a su vez son sometidos a un preprocesamiento y para esto utilizamos la librer\'ia \verb|nltk|.
 	
 	El proceso de tokenizaci\'on se hace mediante la funci\'on \verb|word_tokenize| la cual a partir de un texto(por defecto en ingl\'es) devuelve los diferentes tokens de dicho texto. Luego los tokens son clasificados sint\'acticamente y etiquetados con dicha clasificaci\'on mediante el m\'etodo \verb|pos_tag|. Esto se hace pues para el proceso de ``\textit{lemmatizing}''(llevar las palabras a su ra\'iz gramatical) que es el proceso que viene a continuaci\'on, tener los tokens clasificados mejora el rendimiento de este proceso. Despu\'es de realizado
 	el proceso de \textit{lemmatizing}, se chequea si los t\'erminos obtenidos son ``\textit{stopwords}''(palabras que no proveen informaci\'on \'util). Si un t\'ermino $i$ no es una \textit{stopword}, si no est\'a en el diccionario, se a\~{n}ade como llave y se crea un conjunto con el documento actual. Si ya est\'a el t\'ermino en el diccionario entonces se a\~{n}ade al conjunto correspondiente al t\'ermino el documento actual. Como es un conjunto si el documento ya est\'a en el conjunto, este no se agregar\'a. Para saber el documento actual y la cantidad que de documentos que se ha visto simplemente se aumenta la variable \verb|actual_document|.
@@ -116,12 +116,58 @@
 	
 	La otra funci\'on que aparece en este archivo es \verb|terms_freq_doc|, la cual devuelve de forma perezosa un diccionario para cada documento de la colecci\'on y un valor entero. El diccionario tiene como llaves los t\'erminos que aparecen en dicho documento y el valor asociado a cada t\'ermino es la frecuencia del t\'ermino en el documento. El n\'umero entero que se devuelve junto con el diccionario es la frecuencia del t\'ermino de mayor frecuencia en el documento. Cada vez que se detecte un documento nuevo, se crea un diccionario y un entero inicializado con 0. El procesamiento de los t\'erminos se hace de forma similar que en el m\'etodo anterior. Por cada t\'ermino $i$ en el documento $j$ se verifica si ya este fue agregado al diccionario. En caso afirmativo se incrementa en 1 su valor asociad y en caso contrario se agreg\'a el t\'ermino al diccionario, asoci\'andole 1 como valor, pues es la primera vez que se detecta. Despu\'es de esto se comprueba si dado este aumento la frecuencia del t\'ermino aument\'o, de tal forma que se hizo mayor que la m\'axima frecuencia registrada detectada hasta el momento para el documento. De ocurrir lo antes planteado se actualiza entonces la m\'axima frecuencia detectada (la variable \verb|max_freq|). Cada vez que se termine de analizar un documento se devuelve el diccionario y el entero antes mencionado.
 	
-	Como se explic\'o una ejecuci\'on completa de este m\'etodo analiza cada uno de los documentos y sus tokens. Adem\'as realiza una gran cantidad de operaciones similares al anterior y las que tiene diferente con respecto al otro tienen una complejidad temporal despreciable (son $O(1)$). Por tanto llegamos a la conclusi\'on que una ejecuci\'on completa de este m\'etodo es $O(n*m)$, siendo $n$ y $m$ los mismos valores mencionados anteriormente.
+	Como se explic\'o una ejecuci\'on completa de este m\'etodo analiza cada uno de los documentos y sus tokens. Adem\'as realiza una gran cantidad de operaciones similares al anterior y las que tiene diferente con respecto al otro tienen una complejidad temporal despreciable (son $O(1)$). Por tanto llegamos a la conclusi\'on que una ejecuci\'on completa de este m\'etodo es $O(n\cdot m)$, siendo $n$ y $m$ los mismos valores mencionados anteriormente.
 	
 	\subsection{Representaci\'on de los documentos}
 	
+	El c\'odigo relacionado a este apartado lo podemos encontrar en ``docs\_representation.py''. Primero veamos como hallar los valores $idf_i$ para los diferentes t\'erminos. Estos valores se calculan utilizando la funci\'on \verb|calculate_idfs| la cual recibe un diccionario que tiene como llaves a los diferentes t\'erminos y el objeto asociado a un t\'ermino $t_i$ es el conjunto de documentos en los que el t\'ermino $t_i$ aparece; adem\'as de un valor entero que indica la cantidad de documentos que hay en el sistema. M\'as concretamente este m\'etodo recibe la salida del m\'etodo \verb|cran_preprocessing| u otro que de una salida similar. Est\'e m\'etodo devuelve un diccionario que tiene como llaves a cada uno de los t\'erminos, y el valor asociado a cada t\'ermino $t_i$ es su respectivo valor $idf_i$. Lo que se hace dentro del m\'etodo es lo siguiente: 
+
+	\begin{itemize}
+		\item Crear el diccionario \verb|idfs|.
+		\item Por cada t\'ermino en el diccionario de entrada:
+		\begin{itemize}
+			\item Calcular su $idf_i$ correspondiente y guardar la pareja $t_i$ y $idf_i$ en el diccionario \verb|idfs| como llave y valor respectivamente.
+		\end{itemize}
+		\item  Retornar el diccionario \verb|idfs|.
+	\end{itemize}
 	 
+	 Es sencillo notar que la complejidad temporal de esta funci\'on es $O(k)$, siendo $k$ el n\'umero total de t\'erminos.
 	
+	Veamos ahora como calcular los valores $tf_{i,j}$ para cada t\'ermino en un documento. La funci\'on utilizada para esto es \verb|calculate_tfijs| que recibe un objeto iterable, tal que cada elemento del objeto iterable es una tupla $<$diccionario, entero$>$. El diccionario tiene como llaves los t\'erminos que aparecen en un documento $d_j$ y el entero indica la frecuencia del t\'ermino de mayor frecuencia en el documento $d_j$. Est\'e m\'etodo retorna de forma perezosa un diccionario por cada documento $d_j$ que contiene como llave los t\'erminos de dicho documento y para cada t\'ermino su valor asociado es el valor $tf_{i,j}$ correspondiente. La forma de hacer esto es:
+	
+	\begin{itemize}
+		\item Por cada elemento del objeto iterable:
+		\begin{itemize}
+			\item Crear el diccionario \verb|tfj|
+			\item Por cada t\'ermino en el diccionario obtenido del objeto iterable:
+			\begin{itemize}
+				\item Calcular el $tf_{i,j}$ correspondiente y guardar dicha pareja en el diccionario \verb|tfj|
+			\end{itemize}
+			\item Retornar \verb|tfj| 
+		\end{itemize}
+		 
+	\end{itemize}
+	
+	La idea de hacerlo de forma perezosa es no tener en memoria grandes vol\'umenes de informaci\'on que no son necesarios en todo momento. Ya que se analizan los $n$ documentos de la colecci\'on y en cada una la cantidad de t\'erminos es $O(m)$, una ejecuci\'on completa de este m\'etodo es $O(n\cdot m)$.
+	
+	Como ya vimos como calcular $idf$ y $tf$ a continuaci\'on se explicar\'a como calcular entonces los ``vectores'' de pesos para cada uno de los documentos.  Esto se hace mediante la funci\'on \verb|calculate\_weights|. Esta funci\'on recibe, como primer argumento, el mismo argumento que recibe la funci\'on \verb|calculate_tfijs| descrita anteriormente, y como segundo argumento, un diccionario que contiene los t\'erminos y sus respectivos $idf_i$. Su funcionamiento es el siguiente:
+	
+	\begin{itemize}
+		\item Crear una lista \verb|vec_docs|, que ser\'a en la que se ir\'an guardando los ``vectores'' de pesos
+		\item Por cada elemento que devuelve el llamado a la f\'uncion \verb|calculate_tfijs| (recordemos que cada elemento devuelto es un diccionario con los t\'erminos de un documento $d_j$ y sus respectivos $tf_{i,j}$):
+		\begin{itemize}
+			\item Crear el diccionario \verb|vec_weights|
+			\item Por cada uno de los t\'erminos del diccionario devuelto:
+			\begin{itemize}
+				\item Calcular su peso y guardar la pareja t\'ermino y peso en el diccionario \verb|vec_weights|
+			\end{itemize}
+			\item A\~{n}adir \verb|vec_weights| a la lista \verb|vec_docs|
+		\end{itemize}
+		\item Retornar \verb|vec_docs|.
+	\end{itemize}
+	
+	En este m\'etodo se hace un llamado a \verb|calculate_tfijs| la cual sabemos que tiene complejidad temporal $O(n\cdot m)$ y se itera por los $n$ elementos que esta devuelve y por cada uno se recorre una cantidad $O(m)$ de t\'erminos. Por tanto la complejidad temporal de esta funci\'on es $O(n\cdot m)$.
+		
 	\section{An\'alisis de los resultados del sistema}
 	
 	

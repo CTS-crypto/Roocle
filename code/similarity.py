@@ -60,9 +60,3 @@ file.close()
 file=open('recovered_documents.json','r')
 recovered_documents=json.load(file)
 file.close()
-
-
-index=1
-for sim in sim_docs_queries(docs, queries,recovered_documents):
-    print(index,sim)
-    index+=1

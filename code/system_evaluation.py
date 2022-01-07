@@ -1,4 +1,4 @@
-import similarity as sim
+from similarity import sim_docs_queries
 import json
 
 def _get_REL_rec():
@@ -15,7 +15,7 @@ def _get_REL_rec():
     file=open('recovered_documents.json','r')
     recovered_documents=json.load(file)
     file.close()
-    rec=sim.sim_docs_queries(docs,queries,recovered_documents)
+    rec=sim_docs_queries(docs,queries,recovered_documents)
 
     file=open('cran/cranqrel')
     
@@ -28,7 +28,7 @@ def _get_REL_rec():
         REL[int(k[0])-1].add(int(k[1]))
     file.close()
 
-    return [REL,rec]
+    return REL,rec
 
 def _precision(RR, REC):
     try:
@@ -96,9 +96,7 @@ def _fallout(RI,I):
 
 
 def precision():
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
 
     REC=[]
     RR=[]
@@ -115,9 +113,7 @@ def precision():
     return sum(precision)/len(precision)
 
 def recall():
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
     REC=[]
     RR=[]
     recall=[]
@@ -132,9 +128,7 @@ def recall():
     return sum(recall)/len(recall)
 
 def f_medida(Beta):
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
 
     REC=[]
     RR=[]
@@ -151,9 +145,7 @@ def f_medida(Beta):
     return sum(f_medida)/len(f_medida)
 
 def f1_medida():
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
 
     REC=[]
     RR=[]
@@ -169,9 +161,7 @@ def f1_medida():
     return sum(f1_medida)/len(f1_medida)
 
 def fallout(r):
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
     I=[]
     U=set(range(1,1400))
 
@@ -197,9 +187,7 @@ def fallout(r):
     return sum(fallout)/len(fallout)
 
 def r_precision(r):
-    REL_rec=_get_REL_rec()
-    REL=REL_rec[0]
-    rec=REL_rec[1]
+    REL,rec=_get_REL_rec()
 
     REC=[]
     r_precision=[]
@@ -218,4 +206,6 @@ def r_precision(r):
 
     return sum(r_precision)/len(r_precision)
 
-print(f_medida(10)) #p=0.2112299630965942 r=0.2112299630965942
+print(precision())
+print(recall())
+print(f1_medida()) #p=0.2112299630965942 r=0.2112299630965942
