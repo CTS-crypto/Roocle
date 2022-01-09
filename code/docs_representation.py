@@ -1,5 +1,5 @@
 from math import log10
-from cran_preprocess import cran_preprocessing,terms_freq_doc
+from cran_preprocess import cran_preprocessing,terms_freq_doc,limits_documents
 import json
 
 #calcula idf
@@ -31,13 +31,20 @@ def calculate_weigths(terms_freq_doc,idfs):
         
     return vecs_docs
 
-idfs=calculate_idfs(cran_preprocessing())
-vecs_docs=calculate_weigths(terms_freq_doc(),idfs)
+if __name__=='__main__':
+    
+    idfs=calculate_idfs(cran_preprocessing())
+    vecs_docs=calculate_weigths(terms_freq_doc(),idfs)
+    limits=limits_documents()
 
-#guarda los pesos
-with open('vecs_docs.json','w') as fout:
-    json.dump(vecs_docs, fout)
+    #guarda los pesos
+    with open('vecs_docs.json','w') as fout:
+        json.dump(vecs_docs, fout)
 
-#guarda los idfs
-with open('idfs.json','w') as fout:
-    json.dump(idfs, fout)
+    #guarda los idfs
+    with open('idfs.json','w') as fout:
+        json.dump(idfs, fout)
+        
+    #guarda los limites de los documentos
+    with open('limits.json','w') as fout:
+        json.dump(limits, fout)

@@ -45,18 +45,3 @@ def sim_docs_query(docs,query,m):
 #devuelve, para una lista de consultas, un numero especificado de documentos mas similares para cada consulta
 def sim_docs_queries(docs,queries,recovered_documents):
     return [sim_docs_query(docs, query,m) for query,m in zip(queries,recovered_documents)]
-
-#carga los vectores de pesos de los documentos
-file=open('vecs_docs.json','r')
-docs=json.load(file)
-file.close()
-
-#carga los vectores de pesos de las consultas
-file=open('vecs_queries.json','r')
-queries=json.load(file)
-file.close()
-
-#carga la cantidad de documentos que se deberan recuperar para cada consulta
-file=open('recovered_documents.json','r')
-recovered_documents=json.load(file)
-file.close()

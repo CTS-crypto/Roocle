@@ -127,3 +127,25 @@ def terms_freq_doc():
                     max_freq=max(max_freq,document_terms_freq[gramatical_root])
     yield document_terms_freq,max_freq
     file.close()
+    
+def limits_documents():
+    file=open("cran/cran.all.1400")
+    
+    limits=[]
+    in_document=False  
+    index=0
+    inicial=0
+    first_taken=False
+    
+    for line in file:
+        if line[1]=='W':
+           inicial=index+1
+           first_taken=True
+        elif line[1]=='I' and first_taken:
+            limits.append((inicial,index-1))
+        index+=1
+    limits.append((inicial,index-1))
+    
+    file.close()
+        
+    return limits
