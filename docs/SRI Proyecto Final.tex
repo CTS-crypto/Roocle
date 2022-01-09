@@ -145,7 +145,6 @@
 			\end{itemize}
 			\item Retornar \verb|tfj| 
 		\end{itemize}
-		 
 	\end{itemize}
 	
 	La idea de hacerlo de forma perezosa es no tener en memoria grandes vol\'umenes de informaci\'on que no son necesarios en todo momento. Ya que se analizan los $n$ documentos de la colecci\'on y en cada una la cantidad de t\'erminos es $O(m)$, una ejecuci\'on completa de este m\'etodo es $O(n\cdot m)$.
@@ -167,7 +166,67 @@
 	\end{itemize}
 	
 	En este m\'etodo se hace un llamado a \verb|calculate_tfijs| la cual sabemos que tiene complejidad temporal $O(n\cdot m)$ y se itera por los $n$ elementos que esta devuelve y por cada uno se recorre una cantidad $O(m)$ de t\'erminos. Por tanto la complejidad temporal de esta funci\'on es $O(n\cdot m)$.
+	
+	\subsection{Preprocesamiento de las consultas}
+	
+	El preprocesamiento de las consultas se hace de una forma parecida al preprocesamiento de los documentos. El c\'odigo referente a este apartado se encuentra en el archivo ``queries\_preprocess''.
+	
+	La primera funci\'on ``query\_preprocessing'' se utiliza para preprocesar una sola consulta. Recibe el texto de una consulta y el diccionario \verb|idfs| que contiene a los t\'erminos con sus respectivos valores de $idf$. Una consulta se procesa de la misma manera que un documento, lo que con un paso extra: luego de que un token haya sido completamente procesado comprobar si pertenece al diccionario \verb|idfs|, pues solo interesan las palabras que pertenezcan al menos a un documento de la colecci\'on. Este m\'etodo devuelve un diccionario que los t\'erminos de la consulta y sus respectivas frecuencias, adem\'as de un entero que indica la frecuencia m\'axima de un t\'ermino en la consulta. Su complejidad temporal es $O(m)$, siendo $m$ la cantidad de palabras de la consulta. 
+	
+	El siguiente m\'etodo ``queries\_preprocessing'' se utiliza para el preprocesamiento de las consultas de la colecci\'on. Devuelve de forma perezosa el diccionario y el entero explicados anteriormente para cada una de las consultas en la colecci\'on. Su complejidad temporal es $O(n\cdot m)$ siendo $n$ el n\'umero de consultas y $m$ la cantidad de tokens de la consulta con mayor cantidad de tokens.
+	
+	El \'ultimo m\'etodo ``cran\_recovered\_documents'' se utiliza para obtener, de la relaci\'on de relevancia entre consultas y documentos de la colecci\'on, la cantidad de documentos relevantes para cada una de las consultas.
+	
+	\section{Representaci\'on de las consultas}
+	
+	El c\'odigo para calcular los pesos de las consultas se encuentra en el archivo ``queries\_representation.py''. En este se haya la funci\'on ``calculate\_weigths\_queries'' que recibe un valor para $a$, el diccionario \verb|idfs| y un objeto iterable, donde cada elemento de este es una tupla $<$diccionario,entero$>$, tal que el diccionario contiene los t\'erminos de una consulta y su frecuencia en la misma y el entero indica la frecuancia m\'axima de un t\'ermino en la consulta. Esta devuelve una lista con la representaci\'on en pesos de las consultas pasadas en el objeto iterable. La definici\'on de la funci\'on es muy similar a la utilizada para calcular los pesos de los documentos; el \'unico cambio es el de utilizar adem\'as la constante $a$ de suavizado para el c\'alculo de los pesos de una consulta. La complejidad temporal es $O(n\cdot m)$.
+	
+	Ejecutando este archivo se guarda en un archivo .json los pesos de las consultas de la colecci\'on y en otro la cantidad de documentos relevantes para cada consulta.
+	
+	\subsection{Similitud entre documentos y consultas}
+	
+	El c\'odigo relacionado  a este apartado se encuentra en el archivo ``similarity.py''. La primera funci\'on que se aprecia es \verb|sim_doc_query|. Esta recibe los ``vectores'' de pesos de un documento y una consulta (que recordemos son diccionarios) y devuelve un n\'umero que representa la similitud entre el documento y la consulta. La forma de proceder es la siguiente:
+	
+	\begin{itemize}
+		\item Si el documento o la consulta no tiene t\'erminos entonces la similitud es 0.
 		
+		\item Se calcula $\overrightarrow{d_j}\cdot\overrightarrow{q}$ utilizando solo los t\'erminos que tienen en com\'un ambos
+		
+		\item Se calcula $|\overrightarrow{d_j}|$ con todos los t\'erminos de $d_J$
+		
+		\item Se calcula $|\overrightarrow{q}|$ con todos los t\'erminos de $q$
+		
+		\item Se retorna $\frac{\overrightarrow{d_j}\cdot\overrightarrow{q}}{|\overrightarrow{d_j}|\cdot|\overrightarrow{q}|}$
+	\end{itemize}
+	
+	De forma evidente se aprecia que la complejidad temporal de esta funci\'on es $O(a + b)$, siendo $a$ la cantidad de t\'erminos del documento y $b$ la cantidad de t\'erminos de la consulta.
+		
+	La pr\'oxima funci\'on es \verb|sim_docs_query| la cual recibe una lista con los vectores de pesos de una colecci\'on de documentos, un vector de pesos de una consulta y un entero \verb|m| que indica la cantidad de documentos que se quieren recuperar. Esta funci\'on devuelve una lista de los $m$ documentos(o mejor dicho los id de dichos documentos) m\'as similares a la consulta, ordenados de mayor a menor similitud. Su funcionamiento es el siguiente:
+	
+	\begin{itemize}
+		\item Crear una lista \verb|heap| que utilizaremos como heap, en el cual los documentos estar\'an ordenados parcialmente de menor a mayor similitud.
+		\item Por cada uno de los documentos:
+		\begin{itemize}
+			\item Calcular la similitud entre el documento y la consulta
+			\item Si la similitud es distinta de cero:
+			\begin{itemize}
+				\item Si la cantidad de documentos en el heap alcanz\'o el valor deseado, o sea el valor de \verb|m|, se empuja el documento en el heap y luego se extrae el de menor similitud.
+				\item De lo contrario, se empuja el documento en el heap.
+			\end{itemize}
+		\end{itemize}
+		\item Crear la lista \verb|result| de cardinalidad \verb|m|
+		\item Mientras el heap no este vac\'io:
+		\begin{itemize}
+			\item Extraer el primer elemento del heap y colocar el documento en la posici\'on m\'as a la derecha de \verb|result| a la que a\'un no se le ha asignado un documento.
+		\end{itemize}
+		\item Reotornar la lista \verb|result|
+	\end{itemize}
+	
+	Obs\'ervese que dada la implementaci\'on se garantiza que los documentos m\'as similares a la consulta se guarden en el heap. Y que la lista \verb|result| es un ranking de los documentos del heap ordenados de mayor a menor similitud con la consulta. Las operaciones sobre el heap son $O(\log m)$ y el c\'alculo de similitud ya vimos que es $O(a + b)$. Por tanto la complejidad temporal de guardar los documentos en el heap es $O(n\cdot(a+b+\log m))$
+	siendo $n$ el n\'umero de documentos. Pasar los documentos de la lista al heap tiene complejidad $O(m\log m)$. Obviamente $m\leq n$, pues no se pueden devolver m\'as documentos de los que hay en la colecci\'on. Por tanto la complejidad temporal de esta funci\'on es $O(n\cdot(a+b+\log m))$.
+	
+	La \'ultima funci\'on \verb|sim_docs_queries| recibe una lista de vectores de pesos de documentos, una lista de vectores de pesos de consultas y una lista de enteros tal que la el elemento en la posici\'on $i$ indica la cantidad de documentos que se desean recuperar para la consulta $i$. Devuelve una lista donde cada elemento $i$ de dicha lista es una lista con los documentos recuperados para la consulta $i$. Est\'a funci\'on hace un llamado a la funci\'on \verb|sim_docs_query| por cada una de las consultas, por tanto siendo $k$ el n\'umero de consultas llegamos a la conclusi\'on que el m\'etodo tiene una complejidad temporal $O(k\cdot n\cdot(a+b+\log m))$.
+	
 	\section{An\'alisis de los resultados del sistema}
 	
 	

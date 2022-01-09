@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2021.10.11)  7 JAN 2022 17:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2021.10.11)  9 JAN 2022 13:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -374,24 +374,36 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 144.
 
-Overfull \hbox (6.73808pt too wide) in paragraph at lines 151--152
+Overfull \hbox (6.73808pt too wide) in paragraph at lines 150--151
 []\OT1/cmr/m/n/10 La idea de hac-erlo de forma pere-zosa es no tener en memo-ri
 a grandes vol^^Sumenes
  []
 
 [5]
+Overfull \hbox (7.1159pt too wide) in paragraph at lines 176--177
+[]\OT1/cmr/m/n/10 El sigu-iente m^^Setodo ``queries[]preprocessing'' se uti-liz
+a para el pre-proce-samiento
+ []
 
-LaTeX Warning: Empty `thebibliography' environment on input line 180.
 
-[6] (./SRI Proyecto Final.aux) ) 
+Overfull \hbox (6.48259pt too wide) in paragraph at lines 182--183
+\OT1/cmr/m/n/10 ``queries[]representation.py''. En este se haya la funci^^Son `
+`cal-cu-late[]weigths[]queries''
+ []
+
+[6] [7]
+
+LaTeX Warning: Empty `thebibliography' environment on input line 239.
+
+[8] (./SRI Proyecto Final.aux) ) 
 Here is how much of TeX's memory you used:
  2868 strings out of 494861
  37757 string characters out of 6178803
- 121221 words of memory out of 5000000
+ 122221 words of memory out of 5000000
  6134 multiletter control sequences out of 15000+600000
  6279 words of font info for 23 fonts, out of 8000000 for 9000
  40 hyphenation exceptions out of 8191
- 41i,12n,25p,1409b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,13n,25p,1409b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
@@ -403,12 +415,13 @@ exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmtt10.pfb>
-Output written on "SRI Proyecto Final.pdf" (6 pages, 167208 bytes).
+/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmtt10.pfb>
+Output written on "SRI Proyecto Final.pdf" (8 pages, 183122 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
- 53 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
