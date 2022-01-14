@@ -5,6 +5,8 @@ def sum(vec1,vec2):
 
         else:
             vec1[i]=vec2[i]
+			
+	return vec1
 
 def mult(vec,k):
     mult={}
