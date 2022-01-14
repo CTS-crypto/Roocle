@@ -75,7 +75,6 @@ def _f1_medida(RR, REL, REC):
         print("Cero. Division por cero")
         return 0
 
-
 def _r_precision(RRr,r):
     try:
         if r==0:
@@ -209,5 +208,8 @@ def r_precision(r):
 print('Precision promedio: ',precision())
 print('Recobrado promedio: ',recall())
 print('R_precision5 promedio: ',r_precision(5))
+print('Medida_f promedio: ',f_medida(0))
+print('Medida_f promedio: ',f_medida(1))
+print('Medida_f promedio: ',f_medida(2))
 print('Medida_f1 promedio: ',f1_medida())
 print('Fallout5 promedio: ',fallout(5))

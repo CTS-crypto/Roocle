@@ -1,6 +1,9 @@
 \documentclass[runningheads]{llncs}
 \usepackage{graphicx}
 \usepackage{diagbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
 %
 \begin{document}
 	\hyphenation{}
@@ -251,8 +254,85 @@
 	Por \'ultimo se observa tambi\'en el bot\'on ``Reconsultar'' que este solo aparece una vez (a la derecha del documento m\'as similar) y al presionar en \'el se indica que se rehaga la consulta con la informaci\'on de relevancia e irrelevancia de los documentos. O sea ocurre un proceso de retroalimentaci\'on para obtener mejores resultados.
 	
 	\section{An\'alisis de los resultados del sistema}
+	\subsection{Explicaci\'on de las Medidas}
+	Para el an\'alisis de los resultados del sistema se implementaron un conjunto de medidas que caracterizan el sistema de acuerdo a los documentos que recupera y los que no. En esto se destacan siete conjuntos fundamentales de documentos:
+	\begin{itemize}
+	\item Conjunto de documentos relevantes (REL)
+	\item Conjunto de documentos irrelevantes (I)
+	\item Conjunto de documentos recuperados (REC)
+	\item Conjunto de docuentos recobrados relevantes (RR)
+	\item Conjunto de documentos recobrados no relevantes (RI)
+	\item Conjunto de documentos no recobrados relevantes (NR)
+	\item Conjunto de documentos no recobrados irrelevantes (NN)
+	\end{itemize}
 	
+	Por la propia definic\'on de estos conocemos que se cumplen las siguientes:
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width =8.0cm]{Diagrama.png}
+			\caption[Fig 3]{Relación entre los conjuntos de documentos}		
+		\end{center}
+	\end{figure}
 	
+	A continuaci\'on se enuncian las medidas implementadas y se explica la idea
+\subsubsection{Precisi\'on }
+
+	Esta medida analiza la caracteriza la respuesta a la consulta seg\'un los documentos relevantes que se recuperaron
+	\begin{align*}
+	P&=\dfrac{|RR|}{|REC|}
+	\end{align*}
+	
+	Esta medida tiende a decrecer cuando aumentan los documentos recobrados. Para calcularla, una vez hallados los documentos relevantes para la consulta, utilizando la informaci\'on de apoyo (cran), se analiz\'o cu\'ales se hab\'ian recuperado y de estos loa que estaban entre los relevantes y se aplic\'o la f\'ormula. De igual manera se hiz\'o para cada consulta del cran y los resultados obtenidos se promediaron. 
+
+\subsubsection{Recobrado}
+
+Esta medida es fundamental en los procesos de recuperación de información.
+	\begin{align*}
+	R&=\dfrac{|RR|}{|REL|}
+	\end{align*}
+	Para calcularla, una vez obtenidos los documentos relevantes para la consulta se analizó de ellos cuántos se habían recuperado para aplicar la fórmula. Análogamente se procedió en cada consulya del cran y se promediaron los resultados.
+\subsubsection{Medida F}
+
+Esta medida permite enfatizar la precisión sobre el recobrado o viceversa:
+	\begin{align*}
+	F&=\dfrac{(1+ \beta^{2})PR}{\beta^{2} P + R}
+	\end{align*}
+	
+$ \beta < 1 $ el recobrado tiene mayor peso
+$ \beta = 1 $ la precisión y el recobrado tienen igual peso
+$ \beta > 1 $ la precisión tiene mayor peso
+
+Para hallar esta medida se utilizó el cálculo de las dos anteriores  y se promedió para cada consulta del cran.
+\subsubsection{Medida F1}
+Esta medida armoniza precisión y recobrado teniendo en cuenta ambos.
+	\begin{align*}
+	F1&=\dfrac{2PR}{P + R}
+	\end{align*}
+	F1 tendrá un valor alto si la precisión y el recobrado son altos, luego puede interpretarse como un esfuerzo por hallar el mejor compromiso entre ambos. Para el cálculo de esta se tomó de apoyo los cálculos de precisión y recobrado anteriormente explicados y se promedió para cada consulta del cran.
+	
+\subsubsection{R-Precisión}
+
+Esta medida es el ranking de documentos relevantes a una consulta para la cuál existen R documentos relevantes.
+	\begin{align*}
+	P_{R}&=\dfrac{|RR|_{R}}{R}
+	\end{align*}
+	
+	Para esta medida se seleccionaron los R primeros documentos recuperados y de estos se analizó cuáles eran relevantes para la consulta. Esto se hizo para cada consulta del cran y se promediaron los resultados obtenidos.
+
+\subsubsection{Proporción de fallo}
+Tiene en cuenta la cantidad de documentos irrelevantes y el ranking
+	\begin{align*}
+	Fallout&=\dfrac{|RI|_{R}}{I}
+	\end{align*}
+\subsection{An\'alisis de los Resultados}
+\begin{itemize}
+\item Precision promedio:  0.14384120670204642
+\item Recobrado promedio:  0.617977031182444
+\item 5\_precision promedio:  0.4088888888888891
+\item Medida\_f promedio  $ \beta=1 $:  0.323705400598012
+\item Medida\_f1 promedio:  0.21147765110134745
+\item Fallout\_5 promedio:  0.013017283950617273
+\end{itemize}
 	\section{Conclusiones}
 	
 	
