@@ -100,12 +100,10 @@ if __name__=='__main__':
             
             def add_relevant(d=sim_docs[i]):
                 relevants.add(d)
-                print(relevants)
             Button(inner_frame, text='Sí',font=('Arial',10), bg='green',command=add_relevant).grid(row=i,column=3,padx=10,pady=10)
             
             def add_irrelevant(d=sim_docs[i]):
                 irrelevants.add(d)
-                print(irrelevants)
             Button(inner_frame, text='No',font=('Arial',10), bg='red',command=add_irrelevant).grid(row=i,column=4,padx=10,pady=10)
 
         def re_consult():
@@ -121,7 +119,9 @@ if __name__=='__main__':
             for i in irrelevants:
                 docs_irrelevants.append(docs[i-1])
                 
-            sim_docs=Rocchio(query_weights, docs_relevants, docs_irrelevants, 1, 0.75, 0.15)
+            roc=Rocchio(query_weights, docs_relevants, docs_irrelevants, 1, 0.75, 0.15)
+            
+            sim_docs=sim_docs_query(docs, roc, 0.04)
             
             relevants=set()
             irrelevants=set()        
