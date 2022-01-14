@@ -101,7 +101,7 @@
 	
 	 \subsubsection{Guardar volúmenes de informaci\'on en .json, sobre todo aquellas que se utilizan mucho} De esta forma se devid\'ia la ejecuci\'on en partes, en vez de hacerlo todo de una vez lo cual se demorar\'ia un tiempo considerable y adem\'as cada vez que se quisiera correr el sistema se estar\'ian haciendo los mismos c\'alculos. Algunos objetos guardados en .json son la representaci\'on de los vectores y las consultas y un diccionario que contiene a cada t\'ermino con su respectivo $idfs$.
 	
-	\subsubsection{Utilizar un heap para llevar el ranking de similitud de una consulta} Utilizando esta estructura llevamos un orden parcial de las similitudes de una consulta con los documentos en el sistema. Adem\'as el tama\~{n}o del heap se fija seg\'un la cantidad de documentos que se deseen recuperar para cada consulta, para de esta forma evitar que el heap crezca indefinidamente.
+	\subsubsection{Utilizar un heap para llevar el ranking de similitud de una consulta} Utilizando esta estructura llevamos un orden parcial de las similitudes de una consulta con los documentos en el sistema.
 		
 	\section{Implementaci\'on del sistema}
 	
@@ -201,31 +201,54 @@
 	
 	De forma evidente se aprecia que la complejidad temporal de esta funci\'on es $O(a + b)$, siendo $a$ la cantidad de t\'erminos del documento y $b$ la cantidad de t\'erminos de la consulta.
 		
-	La pr\'oxima funci\'on es \verb|sim_docs_query| la cual recibe una lista con los vectores de pesos de una colecci\'on de documentos, un vector de pesos de una consulta y un entero \verb|m| que indica la cantidad de documentos que se quieren recuperar. Esta funci\'on devuelve una lista de los $m$ documentos(o mejor dicho los id de dichos documentos) m\'as similares a la consulta, ordenados de mayor a menor similitud. Su funcionamiento es el siguiente:
+	La pr\'oxima funci\'on es \verb|sim_docs_query| la cual recibe una lista con los vectores de pesos de una colecci\'on de documentos, un vector de pesos de una consulta y un flotante \verb|m| que indica la similitud m\'inima admisible entre documento y consulta. Esta funci\'on devuelve una lista de los documentos(o mejor dicho los id de dichos documentos) m\'as similares a la consulta, ordenados de mayor a menor similitud. Su funcionamiento es el siguiente:
 	
 	\begin{itemize}
 		\item Crear una lista \verb|heap| que utilizaremos como heap, en el cual los documentos estar\'an ordenados parcialmente de menor a mayor similitud.
 		\item Por cada uno de los documentos:
 		\begin{itemize}
 			\item Calcular la similitud entre el documento y la consulta
-			\item Si la similitud es distinta de cero:
-			\begin{itemize}
-				\item Si la cantidad de documentos en el heap alcanz\'o el valor deseado, o sea el valor de \verb|m|, se empuja el documento en el heap y luego se extrae el de menor similitud.
-				\item De lo contrario, se empuja el documento en el heap.
-			\end{itemize}
+			\item Si la similitud es mayor o igual que \verb|m| empujar el documento en el heap:
 		\end{itemize}
 		\item Crear la lista \verb|result| de cardinalidad \verb|m|
 		\item Mientras el heap no este vac\'io:
 		\begin{itemize}
 			\item Extraer el primer elemento del heap y colocar el documento en la posici\'on m\'as a la derecha de \verb|result| a la que a\'un no se le ha asignado un documento.
 		\end{itemize}
-		\item Reotornar la lista \verb|result|
+		\item Retornar la lista \verb|result|
 	\end{itemize}
 	
-	Obs\'ervese que dada la implementaci\'on se garantiza que los documentos m\'as similares a la consulta se guarden en el heap. Y que la lista \verb|result| es un ranking de los documentos del heap ordenados de mayor a menor similitud con la consulta. Las operaciones sobre el heap son $O(\log m)$ y el c\'alculo de similitud ya vimos que es $O(a + b)$. Por tanto la complejidad temporal de guardar los documentos en el heap es $O(n\cdot(a+b+\log m))$
-	siendo $n$ el n\'umero de documentos. Pasar los documentos de la lista al heap tiene complejidad $O(m\log m)$. Obviamente $m\leq n$, pues no se pueden devolver m\'as documentos de los que hay en la colecci\'on. Por tanto la complejidad temporal de esta funci\'on es $O(n\cdot(a+b+\log m))$.
+	Obs\'ervese que dada la implementaci\'on se garantiza que los documentos m\'as similares a la consulta se guarden en el heap. Y que la lista \verb|result| es un ranking de los documentos del heap ordenados de mayor a menor similitud con la consulta. Las operaciones sobre el heap son $O(\log n)$,siendo $n$ el n\'umero de documentos; y el c\'alculo de similitud ya vimos que es $O(a + b)$. Por tanto la complejidad temporal de guardar los documentos en el heap es $O(n\cdot(a+b+\log n))$. Pasar los documentos de la lista al heap tiene complejidad $O(n\log n)$.  Por tanto la complejidad temporal de esta funci\'on es $O(n\cdot(a+b+\log n))$.
 	
-	La \'ultima funci\'on \verb|sim_docs_queries| recibe una lista de vectores de pesos de documentos, una lista de vectores de pesos de consultas y una lista de enteros tal que la el elemento en la posici\'on $i$ indica la cantidad de documentos que se desean recuperar para la consulta $i$. Devuelve una lista donde cada elemento $i$ de dicha lista es una lista con los documentos recuperados para la consulta $i$. Est\'a funci\'on hace un llamado a la funci\'on \verb|sim_docs_query| por cada una de las consultas, por tanto siendo $k$ el n\'umero de consultas llegamos a la conclusi\'on que el m\'etodo tiene una complejidad temporal $O(k\cdot n\cdot(a+b+\log m))$.
+	La \'ultima funci\'on \verb|sim_docs_queries| recibe una lista de vectores de pesos de documentos, una lista de vectores de pesos de consultas y una lista de n\'umeros fraccionarios tal que la el elemento en la posici\'on $i$ indica la similitud m\'inima admisible para la consulta $i$. Devuelve una lista donde cada elemento $i$ de dicha lista es una lista con los documentos recuperados para la consulta $i$. Est\'a funci\'on hace un llamado a la funci\'on \verb|sim_docs_query| por cada una de las consultas, por tanto siendo $k$ el n\'umero de consultas llegamos a la conclusi\'on que el m\'etodo tiene una complejidad temporal $O(k\cdot n\cdot(a+b+\log n))$.
+	
+	\subsection{Interfaz gr\'afica}
+	
+	Como la interfaz gr\'afica no es objetivo de la asignatura solo vamos a explicar el funcionamiento de la misma, solo decir que para su implementaci\'on se utiliz\'o la librer\'ia \verb|tkinter|. El c\'odigo referente a la misma se encuentra en el archivo ``user.py'' y para acceder a se ejecuta dicho archivo.
+	
+	Al iniciar la aplicaci\'on, esta luce como muestra la Fig. 1:
+	
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width =12.0cm]{inicio.png}
+			\caption[Fig1]{Inicio de la aplicaci\'on}		
+		\end{center}
+	\end{figure}
+	
+	Para realizar una consulta la escribimos en la barra que aparece debajo del cartel de bienvenida y presionamos el bot\'on ``Buscar''. Al hacer esto la aplicaci\'on mostrar\'a los 10 documentos m\'as similares a la consulta realizada. Por ejemplo veamos, en la Fig 2, que se obtiene al realizar la primera consulta de la colecci\'on.
+	
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width =12.0cm]{consulta.png}	
+			\caption[Fig2]{Ejemplo de consulta}	
+		\end{center}
+	\end{figure}
+	
+	En la Fig. 2 vemos el documento m\'as similar a la consulta, para ver el resto de documentos utilizamos la \textit{scrollbar} situada a la derecha.
+	
+	Ahora obs\'ervese que a la derecha del documento aparece la pregunta de si >Ha sido \'util el documento? Y a la derecha de esta dos botones: ``S\'i'' y ``No''. El usuario al presionar uno de estos botones indica si el documento es relevante o no. Esta informaci\'on luego se utiliza para el proceso de retroalimentaci\'on.
+	
+	Por \'ultimo se observa tambi\'en el bot\'on ``Reconsultar'' que este solo aparece una vez (a la derecha del documento m\'as similar) y al presionar en \'el se indica que se rehaga la consulta con la informaci\'on de relevancia e irrelevancia de los documentos. O sea ocurre un proceso de retroalimentaci\'on para obtener mejores resultados.
 	
 	\section{An\'alisis de los resultados del sistema}
 	
