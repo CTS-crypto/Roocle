@@ -2,7 +2,7 @@ def sum(vec1,vec2):
     sum={}
     for i in vec1.keys():
         if i in vec2:
-            sum[i]=vec1[i]+vec2
+            sum[i]=vec1[i]+vec2[i]
 
         else:
             sum[i]=vec1[i]
@@ -19,9 +19,9 @@ def mult(vec,k):
 def Rocchio(query,docs_rel,docs_no_rel,alpha,beta,ganma):
     Doc_rel={}
     for i in docs_rel:
-        Docs_rel=sum(Docs_rel,i)
+        Doc_rel=sum(Doc_rel,i)
 
-    Docs_rel=mult(Docs_rel,(beta*(1/len(docs_rel))))
+    Doc_rel=mult(Doc_rel,(beta*(1/len(docs_rel))))
 
     Doc_no_rel={}
     for i in docs_no_rel:
