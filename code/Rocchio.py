@@ -24,8 +24,8 @@ def Rocchio(query,docs_rel,docs_no_rel,alpha,beta,ganma):
     for i in docs_no_rel:
         sum(Doc_no_rel,i)
 
-    Doc_no_rel=mult(Doc_no_rel,(ganma*(1/len(docs_no_rel))))
+    Doc_no_rel=mult(Doc_no_rel,(ganma*(-1/len(docs_no_rel))))
 
-    doc=sum(Doc_rel,mult(Doc_no_rel,-1))
-    qm=sum(mult(query,alpha),doc)
+    doc=sum(Doc_rel,Doc_no_rel)
+    qm=sum(doc,mult(query,alpha))
     return qm
