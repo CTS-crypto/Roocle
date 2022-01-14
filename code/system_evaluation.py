@@ -15,7 +15,7 @@ def _get_REL_rec():
     file=open('recovered_documents.json','r')
     recovered_documents=json.load(file)
     file.close()
-    rec=sim_docs_queries(docs,queries,recovered_documents)
+    rec=sim_docs_queries(docs,queries,[0.1 for i in queries])
 
     file=open('cran/cranqrel')
     
@@ -206,6 +206,8 @@ def r_precision(r):
 
     return sum(r_precision)/len(r_precision)
 
-print(precision())
-print(recall())
-print(f1_medida()) #p=0.2112299630965942 r=0.2112299630965942
+print('Precision promedio: ',precision())
+print('Recobrado promedio: ',recall())
+print('R_precision5 promedio: ',r_precision(5))
+print('Medida_f1 promedio: ',f1_medida())
+print('Fallout5 promedio: ',fallout(5))

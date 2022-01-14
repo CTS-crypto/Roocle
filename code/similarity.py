@@ -25,11 +25,8 @@ def sim_docs_query(docs,query,m):
     for doc in docs:
         n+=1
         sim=sim_doc_query(doc, query)
-        if sim !=0:
-            if len(heap)==m:
-                heapq.heappushpop(heap, (sim,n))
-            else:
-                heapq.heappush(heap, (sim,n))
+        if sim >= m:
+            heapq.heappush(heap, (sim,n))
     
     total=len(heap)
     index=total-1
@@ -43,5 +40,5 @@ def sim_docs_query(docs,query,m):
     return result
 
 #devuelve, para una lista de consultas, un numero especificado de documentos mas similares para cada consulta
-def sim_docs_queries(docs,queries,recovered_documents):
-    return [sim_docs_query(docs, query,m) for query,m in zip(queries,recovered_documents)]
+def sim_docs_queries(docs,queries,min_sims):
+    return [sim_docs_query(docs, query,m) for query,m in zip(queries,min_sims)]
