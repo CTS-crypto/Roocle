@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2022.1.2)  14 JAN 2022 12:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2022.1.2)  15 JAN 2022 20:52
 entering extended mode
 **"./SRI Proyecto Final.tex"
 ("SRI Proyecto Final.tex"
@@ -469,106 +469,126 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {C:/Users/ROCIO/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Info: Redefining \. on input line 95.
-LaTeX Info: Redefining \% on input line 95.
+LaTeX Info: Redefining \. on input line 90.
+LaTeX Info: Redefining \% on input line 90.
  [2]
-LaTeX Info: Redefining \. on input line 117.
-LaTeX Info: Redefining \% on input line 117.
+LaTeX Info: Redefining \. on input line 114.
+LaTeX Info: Redefining \% on input line 114.
 
 [3]
-Overfull \hbox (46.17162pt too wide) in paragraph at lines 126--127
+LaTeX Info: Redefining \. on input line 130.
+LaTeX Info: Redefining \% on input line 130.
+ [4]
+Overfull \hbox (46.17162pt too wide) in paragraph at lines 137--138
 []\OT1/cmr/m/n/10 El codi-go re-la-cio-na-do a es-te apar-ta-do lo po-de-mos e
 n-con-trar en ``docs[]representation.py''.
  []
 
-LaTeX Info: Redefining \. on input line 127.
-LaTeX Info: Redefining \% on input line 127.
-[4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 132.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 143.
 
- ("C:\Users\ROCIO\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
+("C:\Users\ROCIO\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 132.
-LaTeX Info: Redefining \. on input line 161.
-LaTeX Info: Redefining \% on input line 161.
- [5]
-Overfull \hbox (6.48259pt too wide) in paragraph at lines 185--186
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 143.
+LaTeX Info: Redefining \. on input line 144.
+LaTeX Info: Redefining \% on input line 144.
+
+[5]
+LaTeX Info: Redefining \. on input line 188.
+LaTeX Info: Redefining \% on input line 188.
+ [6]
+Overfull \hbox (6.48259pt too wide) in paragraph at lines 196--197
 \OT1/cmr/m/n/10 ``que-ries[]representation.py''. En es-te se ha-ya la fun-cion
  ``cal-cu-la-te[]weigths[]queries''
  []
 
-LaTeX Info: Redefining \. on input line 186.
-LaTeX Info: Redefining \% on input line 186.
-[6]
-LaTeX Info: Redefining \. on input line 225.
-LaTeX Info: Redefining \% on input line 225.
- [7]
-<inicio.png, id=38, 1207.51125pt x 636.3775pt>
-File: inicio.png Graphic file (type png)
-<use inicio.png>
-Package pdftex.def Info: inicio.png  used on input line 236.
-(pdftex.def)             Requested size: 341.43306pt x 179.93234pt.
+LaTeX Info: Redefining \. on input line 205.
+LaTeX Info: Redefining \% on input line 205.
+[7]
 LaTeX Info: Redefining \. on input line 242.
 LaTeX Info: Redefining \% on input line 242.
- [8 <./inicio.png>]
-<consulta.png, id=44, 1203.49625pt x 635.37375pt>
+ [8]
+<inicio.png, id=41, 1207.51125pt x 636.3775pt>
+File: inicio.png Graphic file (type png)
+<use inicio.png>
+Package pdftex.def Info: inicio.png  used on input line 247.
+(pdftex.def)             Requested size: 341.43306pt x 179.93234pt.
+<consulta.png, id=43, 1203.49625pt x 635.37375pt>
 File: consulta.png Graphic file (type png)
 <use consulta.png>
-Package pdftex.def Info: consulta.png  used on input line 245.
+Package pdftex.def Info: consulta.png  used on input line 256.
 (pdftex.def)             Requested size: 341.43306pt x 180.25932pt.
-LaTeX Info: Redefining \. on input line 263.
-LaTeX Info: Redefining \% on input line 263.
- [9 <./consulta.png>]
-<Diagrama.png, id=49, 309.0833pt x 215.51947pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 1622) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 271.
+LaTeX Info: Redefining \% on input line 271.
+ [9 <./inicio.png>]
+LaTeX Info: Redefining \. on input line 288.
+LaTeX Info: Redefining \% on input line 288.
+ [10 <./consulta.png>]
+<Diagrama.png, id=57, 309.0833pt x 215.51947pt>
 File: Diagrama.png Graphic file (type png)
 <use Diagrama.png>
-Package pdftex.def Info: Diagrama.png  used on input line 272.
+Package pdftex.def Info: Diagrama.png  used on input line 306.
 (pdftex.def)             Requested size: 227.62204pt x 158.71895pt.
-LaTeX Info: Redefining \. on input line 294.
-LaTeX Info: Redefining \% on input line 294.
- [10 <./Diagrama.png>]
+LaTeX Info: Redefining \. on input line 317.
+LaTeX Info: Redefining \% on input line 317.
+ [11 <./Diagrama.png>]
+LaTeX Info: Redefining \. on input line 358.
+LaTeX Info: Redefining \% on input line 358.
+ [12]
+LaTeX Info: Redefining \. on input line 389.
+LaTeX Info: Redefining \% on input line 389.
+ [13]
 
-LaTeX Warning: Empty `thebibliography' environment on input line 342.
+LaTeX Warning: Empty `thebibliography' environment on input line 409.
 
-LaTeX Info: Redefining \. on input line 344.
-LaTeX Info: Redefining \% on input line 344.
-[11]
-LaTeX Info: Redefining \. on input line 344.
-LaTeX Info: Redefining \% on input line 344.
- [12] ("SRI Proyecto Final.aux"
+LaTeX Info: Redefining \. on input line 411.
+LaTeX Info: Redefining \% on input line 411.
+[14] ("SRI Proyecto Final.aux"
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 4700 strings out of 492891
- 62693 string characters out of 3123563
+ 4716 strings out of 492891
+ 62855 string characters out of 3123563
  170941 words of memory out of 3000000
- 8505 multiletter control sequences out of 15000+200000
- 7978 words of font info for 31 fonts, out of 3000000 for 9000
+ 8513 multiletter control sequences out of 15000+200000
+ 10427 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,15n,31p,1411b,435s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,15n,31p,1409b,439s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmbx10.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/ROCIO/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/ROCIO/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/RO
-CIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb>
-<C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmmi7.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/ROCIO/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/ROCIO/AppD
-ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/User
-s/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10
+s/cmextra/cmbsy7.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmbx10.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/ROCIO/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/ROCIO/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/User
+s/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10
 .pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmtt10.pfb>
-Output written on "SRI Proyecto Final.pdf" (12 pages, 362843 bytes).
+nts/cm/cmmi10.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmmi5.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/ROCIO/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/ROCIO/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib5.pfb><C:/U
+sers/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextr
+a/cmmib7.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/ROCIO/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/ROCIO/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Use
+rs/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti1
+0.pfb><C:/Users/ROCIO/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmtt10.pfb>
+Output written on "SRI Proyecto Final.pdf" (14 pages, 409490 bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
+ 131 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

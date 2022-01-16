@@ -159,7 +159,7 @@ def f1_medida():
 
     return sum(f1_medida)/len(f1_medida)
 
-def fallout(r):
+def fallout():
     REL,rec=_get_REL_rec()
     I=[]
     U=set(range(1,1400))
@@ -168,8 +168,33 @@ def fallout(r):
         I.append(U.difference(REL[i]))
 
     REC=[]
-    RR=[]
+
     fallout=[]
+
+    for i in range(len(rec)):
+        REC.append(set(rec[i]))
+        RI=0
+        for j in rec[i]:
+            if j in I[i]:
+                RI+=1
+
+            fallout.append(_fallout(RI,len(I)))
+
+    return sum(fallout)/len(fallout)
+
+
+    return 0
+def r_fallout(r):
+    REL,rec=_get_REL_rec()
+    I=[]
+    U=set(range(1,1400))
+
+    for i in range(len(REL)):
+        I.append(U.difference(REL[i]))
+
+    REC=[]
+
+    r_fallout=[]
     for i in range(len(rec)):
         REC.append(set(rec[i]))
         count=r
@@ -181,9 +206,9 @@ def fallout(r):
             if j in I[i]:
                 RIr+=1
             count-=1
-        fallout.append(_fallout(RIr,len(I)))
+        r_fallout.append(_fallout(RIr,len(I)))
 
-    return sum(fallout)/len(fallout)
+    return sum(r_fallout)/len(r_fallout)
 
 def r_precision(r):
     REL,rec=_get_REL_rec()
@@ -212,4 +237,5 @@ print('Medida_f promedio: ',f_medida(0))
 print('Medida_f promedio: ',f_medida(1))
 print('Medida_f promedio: ',f_medida(2))
 print('Medida_f1 promedio: ',f1_medida())
-print('Fallout5 promedio: ',fallout(5))
+print('fallout promedio: ',fallout())
+print('R_fallout5 promedio: ',r_fallout(5))

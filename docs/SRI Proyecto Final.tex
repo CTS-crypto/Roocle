@@ -19,10 +19,21 @@
 	\maketitle
 	
 	\begin{abstract}
-		
+		Desde el surgimiento del almacenamiento de información, poder acceder a esta de forma cómoda y eficiente cuando se necesite, ha sido de gran importancia. Con la aparición de las computadoras esto se ha podido automatizar mediante programas, conocdos como Sistemas de Recuperación de Información. El proyecto que se presenta constituye un Sistema de Recuperación de Información para un conjunto de documentos utilizando el modelo vectorial.
 	\end{abstract}
 
 	\section{Introducci\'on}
+La búsqueda y recuperación de información es la ciencia que estudia la manera de hallar los datos en documentos electrónicos y cualquier tipo de colección documental digital. 
+
+Inicialmente el manejo a grandes volúmenes de información ocurría con las bibliotecas. Para acceder cómodamente a los libros y artículos se mantenían indexados usando catálogos. Desde 1891 se comienzan a utilizar equipos para automatizar la búsqueda en los mismos. 
+
+En los años 40 se emplea por primera vez el término Recuperación de Información y ya en los 50 comienzan a usarse computadoras para este fin.
+ 
+El proceso de recuperación de información comienza cuando un usuario hace una consulta al sistema. Dentro de los modelos de Sistema de Recuperación que se usan en la actualidad encontramos el modelo vectorial que fue el que se desarrolló en este proyecto que a continuación se presenta.
+
+El objetivo de este proyecto es brindar un Sistema de Recuperación de Información para una colección de datos dada y presentar un informe donde se explique bien el mismo.
+
+El documento está dividido en seis secciones principales. En la primera sección se incluye el diseño del sistema, donde se explica brevemente este modelo, las razones para la selección del mismo y algunas ideas interesantes que se tuvieron en cuenta en la concepción del sistema. La segunda sección aborda la implementación del sistema, explicando cómo se procesaron y se representaron los documentos y cómo se procesaron las consultas. La tercera sección explica la representación de las consultas, analiza la similitud entre estas y los documentos y muestra el funcionamiento de la interfaz gráfica. La sección cuatro explica cómo se realizó la retroalimentación. La sección cinco  evalúa el sistema que se implementó, muestra  las medidas usadas para esto y los resultados obtenidos. La última sección realiza un análisis crítico de las ventajas y desventajas de la aplicación.
 
 	\section{Dise\~{n}o del sistema}
 	
@@ -88,7 +99,7 @@
 	\subsubsection{Usar diccionarios para representar a los vectores y las consultas}
 	Una idea interesante que utilizamos para representar lo que son los vectores en la teor\'ia como los vectores de los t\'erminos y de pesos tanto de los documentos como de las consultas, en lugar de como vectores los implementamos como diccionarios, tal que la clave es el t\'ermino $i$ (preprocesado) y la clave seg\'un cual sea el diccionario, ser\'ia la frecuencia o el peso del t\'ermino en un documento o consulta en espec\'ifico. 
 	
-	Esto lo hacemos debido a la gran cantidad de t\'erminos que pudieran haber una colecci\'on grande de t\'erminos y representar cada documento mediante un vector de longitud igual a la cantidad total de t\'erminos distintos ser\'ia altamente costoso en memoria y en tiempo de ejecuci\'on. Adem\'as de la gran probabilidad de que la matriz conformada por los vectores de frecuencia de los t\'erminos y en consecuencia la matriz formada por los vectores de pesos de los t\'erminos en los documentos sean muy esparcidas, pues lo m\'as probable, si se tiene una colecci\'on grande de documentos, es que un t\'ermino $t_i$, si es relevante, aparezca en una cantidad muy inferior de documentos con respecto al total de los mismos.
+	Esto lo hacemos debido a la gran cantidad de t\'erminos que pudieran haber en una colecci\'on grande de t\'erminos y representar cada documento mediante un vector de longitud igual a la cantidad total de t\'erminos distintos ser\'ia altamente costoso en memoria y en tiempo de ejecuci\'on. Adem\'as de la gran probabilidad de que la matriz conformada por los vectores de frecuencia de los t\'erminos y en consecuencia la matriz formada por los vectores de pesos de los t\'erminos en los documentos sean muy esparcidas, pues lo m\'as probable, si se tiene una colecci\'on grande de documentos, es que un t\'ermino $t_i$, si es relevante, aparezca en una cantidad muy inferior de documentos con respecto al total de los mismos.
 	
 	Adem\'as esto lo podemos hacer debido a que un t\'ermino que no aparezca en un documento, dado que su frecuencia es cero y por como se calculan los pesos y la similitud entre un documento y una consulta, no afecta para nada el c\'alculo de estos par\'ametros. Veamos esto r\'apidamente:
 	
@@ -117,7 +128,7 @@
 	
 	Debido a que se analizan todos los documentos de una colecci\'on y de cada uno de estos se analizan todos sus t\'erminos, asumiendo que todas las operaciones que se realizan sobre un token se hacen en $O(1)$, llegamos a la conclusi\'on que una llamada a esta funci\'on tiene una complejidad temporal $O(n\cdot m)$; siendo $n$ la cantidad total de documentos y $m$ la cantidad de tokens del documento que mayor cantidad de tokens tiene.
 	
-	La otra funci\'on que aparece en este archivo es \verb|terms_freq_doc|, la cual devuelve de forma perezosa un diccionario para cada documento de la colecci\'on y un valor entero. El diccionario tiene como llaves los t\'erminos que aparecen en dicho documento y el valor asociado a cada t\'ermino es la frecuencia del t\'ermino en el documento. El n\'umero entero que se devuelve junto con el diccionario es la frecuencia del t\'ermino de mayor frecuencia en el documento. Cada vez que se detecte un documento nuevo, se crea un diccionario y un entero inicializado con 0. El procesamiento de los t\'erminos se hace de forma similar que en el m\'etodo anterior. Por cada t\'ermino $i$ en el documento $j$ se verifica si ya este fue agregado al diccionario. En caso afirmativo se incrementa en 1 su valor asociad y en caso contrario se agreg\'a el t\'ermino al diccionario, asoci\'andole 1 como valor, pues es la primera vez que se detecta. Despu\'es de esto se comprueba si dado este aumento la frecuencia del t\'ermino aument\'o, de tal forma que se hizo mayor que la m\'axima frecuencia registrada detectada hasta el momento para el documento. De ocurrir lo antes planteado se actualiza entonces la m\'axima frecuencia detectada (la variable \verb|max_freq|). Cada vez que se termine de analizar un documento se devuelve el diccionario y el entero antes mencionado.
+	La otra funci\'on que aparece en este archivo es \verb|terms_freq_doc|, la cual devuelve de forma perezosa un diccionario para cada documento de la colecci\'on y un valor entero. El diccionario tiene como llaves los t\'erminos que aparecen en dicho documento y el valor asociado a cada t\'ermino es la frecuencia del t\'ermino en el documento. El n\'umero entero que se devuelve junto con el diccionario es la frecuencia del t\'ermino de mayor frecuencia en el documento. Cada vez que se detecte un documento nuevo, se crea un diccionario y un entero inicializado con 0. El procesamiento de los t\'erminos se hace de forma similar que en el m\'etodo anterior. Por cada t\'ermino $i$ en el documento $j$ se verifica si ya este fue agregado al diccionario. En caso afirmativo se incrementa en 1 su valor asociad y en caso contrario se agrega el t\'ermino al diccionario, asoci\'andole 1 como valor, pues es la primera vez que se detecta. Despu\'es de esto se comprueba si dado este aumento la frecuencia del t\'ermino aument\'o, de tal forma que se hizo mayor que la m\'axima frecuencia registrada detectada hasta el momento para el documento. De ocurrir lo antes planteado se actualiza entonces la m\'axima frecuencia detectada (la variable \verb|max_freq|). Cada vez que se termine de analizar un documento se devuelve el diccionario y el entero antes mencionado.
 	
 	Como se explic\'o una ejecuci\'on completa de este m\'etodo analiza cada uno de los documentos y sus tokens. Adem\'as realiza una gran cantidad de operaciones similares al anterior y las que tiene diferente con respecto al otro tienen una complejidad temporal despreciable (son $O(1)$). Por tanto llegamos a la conclusi\'on que una ejecuci\'on completa de este m\'etodo es $O(n\cdot m)$, siendo $n$ y $m$ los mismos valores mencionados anteriormente.
 	
@@ -227,7 +238,7 @@
 	
 	\subsection{Interfaz gr\'afica}
 	
-	Como la interfaz gr\'afica no es objetivo de la asignatura solo vamos a explicar el funcionamiento de la misma, solo decir que para su implementaci\'on se utiliz\'o la librer\'ia \verb|tkinter|. El c\'odigo referente a la misma se encuentra en el archivo ``user.py'' y para acceder a se ejecuta dicho archivo.
+	Como la interfaz gr\'afica no es objetivo de la asignatura solo vamos a explicar el funcionamiento de la misma, solo decir que para su implementaci\'on se utiliz\'o la librer\'ia \verb|tkinter|. El c\'odigo referente a la misma se encuentra en el archivo ``user.py'' y para acceder a este se ejecuta dicho archivo.
 	
 	Al iniciar la aplicaci\'on, esta luce como muestra la Fig. 1:
 	
@@ -253,7 +264,30 @@
 	
 	Por \'ultimo se observa tambi\'en el bot\'on ``Reconsultar'' que este solo aparece una vez (a la derecha del documento m\'as similar) y al presionar en \'el se indica que se rehaga la consulta con la informaci\'on de relevancia e irrelevancia de los documentos. O sea ocurre un proceso de retroalimentaci\'on para obtener mejores resultados.
 	
+	
+\section{Retroalimentación}
+Para mejorar el sistema de forma que se pueda ir refinando la respuesta a determinada consulta se implementó la retroalimentación. A continuación se explicará cómo se realizó.
+
+\subsection{Retroalimentación}
+
+\subsection{Algoritmo de Rocchio}
+La idea que busca este algoritmo es que a partir de los documentos relevantes y no relevantes a una consulta se pueda obtener un nuevo vector que maximice la diferencia entre los centroides de ambos conjuntos de documentos.
+Para esto se aplica la siguiente fórmula:
+
+$$
+\vec{q_{m}}= \alpha \vec{q_{0}}+\dfrac{\beta}{|D_{r}|}\sum_{\vec{d_{j} \in D_{r}}} \vec{d_{j}} -\dfrac{\gamma}{|D_{nr}|}\sum_{\vec{d_{j} \in D_{nr}}} \vec{d_{j}}
+$$
+
+Donde $ D_{r} $ y $D_{nr} $ son los conjuntos conocidos de documentos relevantes y no relevantes respectivamente.
+
+$ q_{0} $ es la consulta dada
+
+$ \alpha$, $\beta $ y  $ \gamma $ son los pesos establecidos para cada t\'ermino de consulta, comunmente se usa 1, 0.75 y 0.15 respectivamente.
+
+Para la implementación del mismo se realizó un sumador de dos vectores y un multiplicador entre vector y escalar. El primero suma los pesos de los términos en común de los dos vectores y agrega los términos que uno de los dos vectores no contiene, con su peso, al vector resultante. De esta forma se sumó cada vector del conjunto de vectores de documentos relevantes y del conjunto de vectores de documentos no relevantes y los vectores resultantes se multiplicaron con $ \dfrac{\beta}{|D_{r}|} $ y $-\dfrac{\gamma}{|D_{nr}|} $ respectivamente. Se multiplicó además el vector de la consulta inicial por $ \alpha $ y se devolvió como resultado la suma de estos tres vectores.
+
 	\section{An\'alisis de los resultados del sistema}
+	
 	\subsection{Explicaci\'on de las Medidas}
 	Para el an\'alisis de los resultados del sistema se implementaron un conjunto de medidas que caracterizan el sistema de acuerdo a los documentos que recupera y los que no. En esto se destacan siete conjuntos fundamentales de documentos:
 	\begin{itemize}
@@ -277,12 +311,12 @@
 	A continuaci\'on se enuncian las medidas implementadas y se explica la idea
 \subsubsection{Precisi\'on }
 
-	Esta medida analiza la caracteriza la respuesta a la consulta seg\'un los documentos relevantes que se recuperaron
+	Esta medida caracteriza la respuesta a la consulta seg\'un los documentos relevantes que se recuperaron
 	\begin{align*}
 	P&=\dfrac{|RR|}{|REC|}
 	\end{align*}
 	
-	Esta medida tiende a decrecer cuando aumentan los documentos recobrados. Para calcularla, una vez hallados los documentos relevantes para la consulta, utilizando la informaci\'on de apoyo (cran), se analiz\'o cu\'ales se hab\'ian recuperado y de estos loa que estaban entre los relevantes y se aplic\'o la f\'ormula. De igual manera se hiz\'o para cada consulta del cran y los resultados obtenidos se promediaron. 
+	Esta medida tiende a decrecer cuando aumentan los documentos recobrados. Para calcularla, una vez hallados los documentos relevantes para la consulta, utilizando la informaci\'on de apoyo (cran), se analiz\'o cu\'ales se hab\'ian recuperado y de estos los que estaban entre los relevantes y se aplic\'o la f\'ormula. De igual manera se hiz\'o para cada consulta del cran y los resultados obtenidos se promediaron. 
 
 \subsubsection{Recobrado}
 
@@ -290,7 +324,7 @@ Esta medida es fundamental en los procesos de recuperación de información.
 	\begin{align*}
 	R&=\dfrac{|RR|}{|REL|}
 	\end{align*}
-	Para calcularla, una vez obtenidos los documentos relevantes para la consulta se analizó de ellos cuántos se habían recuperado para aplicar la fórmula. Análogamente se procedió en cada consulya del cran y se promediaron los resultados.
+	Para calcularla, una vez obtenidos los documentos relevantes para la consulta se analizó de ellos cuántos se habían recuperado, para aplicar la fórmula. Análogamente se procedió en cada consulta del cran y se promediaron los resultados.
 \subsubsection{Medida F}
 
 Esta medida permite enfatizar la precisión sobre el recobrado o viceversa:
@@ -299,7 +333,9 @@ Esta medida permite enfatizar la precisión sobre el recobrado o viceversa:
 	\end{align*}
 	
 $ \beta < 1 $ el recobrado tiene mayor peso
+
 $ \beta = 1 $ la precisión y el recobrado tienen igual peso
+
 $ \beta > 1 $ la precisión tiene mayor peso
 
 Para hallar esta medida se utilizó el cálculo de las dos anteriores  y se promedió para cada consulta del cran.
@@ -320,10 +356,11 @@ Esta medida es el ranking de documentos relevantes a una consulta para la cuál 
 	Para esta medida se seleccionaron los R primeros documentos recuperados y de estos se analizó cuáles eran relevantes para la consulta. Esto se hizo para cada consulta del cran y se promediaron los resultados obtenidos.
 
 \subsubsection{Proporción de fallo}
-Tiene en cuenta la cantidad de documentos irrelevantes y el ranking
+Tiene en cuenta la cantidad de documentos irrelevantes 
 	\begin{align*}
-	Fallout&=\dfrac{|RI|_{R}}{I}
+	Fallout&=\dfrac{|RI|}{I}
 	\end{align*}
+	Para su cálculo, se tomaron los documentos relevantes para la consulta y los documentos recuperados. Con la diferencia entre el conjunto de todos los documentos y el conjunto de todos los documentos relevantes para determinada consulta se obtuvieron los documentos irrelevantes para la misma. Luego se compararon de estos cuáles se habían recuperado y se aplicó la fórmula. Se procedió de la misma forma para cada consulta y se promedió el resultado.
 \subsection{An\'alisis de los Resultados}
 \begin{itemize}
 \item Precision promedio:  0.14384120670204642
@@ -331,12 +368,42 @@ Tiene en cuenta la cantidad de documentos irrelevantes y el ranking
 \item 5\_precision promedio:  0.4088888888888891
 \item Medida\_f promedio  $ \beta=1 $:  0.323705400598012
 \item Medida\_f1 promedio:  0.21147765110134745
-\item Fallout\_5 promedio:  0.013017283950617273
+\item Proporción de fallo  promedio: 0.11984634310516776
+
 \end{itemize}
+
+\section{Análisis de la aplicación}
+\subsection{Ventajas}
+\begin{itemize}
+\item Utiliza un modelo vectorial por lo que los documentos se ordenan de acuerdo al grado de similitud con la consulta, tiene mejor rendimiento en la recuperación que otros modelos y puede recuperar documentos que se aproximen a los requerimientos de la consulta.
+\item Presenta una interfaz gráfica, de forma que sea más accesible y cómoda para los usuarios.
+\item Utiliza la retroalimentación para mejorar las respuestas a las consultas de acuerdo al criterio del usuario.
+\item Tiene un buen recobrado.
+\item Tiene una baja proproción de fallo.
+\end{itemize}
+\subsection{Desventajas}
+\begin{itemize}
+\item Utiliza un modelo vectorial por lo que asume que todos los términos indexados son mutuamente independientes.
+\item No utiliza algoritmos como Crawling
+\item No usa bases de conocimiento como Tesauros u Ontologías.
+\item No tiene muy buena precisión.
+\end{itemize}
+
 	\section{Conclusiones}
+	En función de lo planteado en las secciones anteriores se arriban a las siguientes conclusiones:
+	\begin{itemize}
+	\item Se diseñó un Sistema de Recuperación de Información para una colección de documentos dada.
+	\item Se realizó una interfaz gráfica para brindar comodidad al usuario.
+	\item Se implementó la retroalimentación para el sistema de forma que mediante la ayuda del usuario se perfeccione su funcionamiento.
+	\item Se analizaron los resultados obtenidos por el sistema con vistas a evaluar el funcionamiento del mismo.
+	\end{itemize}
 	
-	
-	
+	\section{Recomendaciones}
+	En virtud del trabajo realizado y las posibilidades del mismo se recomienda:
+	\begin{itemize}
+	\item Ampliar el proyecto con integración mediante algoritmos como Crawling y añadiendo bases de conocimiento como ontologías o tesauros.
+	\item Mejorar la precisión del sistema.
+	\end{itemize}
 	\begin{thebibliography}{1}
 		
 	\end{thebibliography}
