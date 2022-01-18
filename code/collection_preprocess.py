@@ -65,17 +65,15 @@ stop_words=set(stopwords.words("english"))
 lemmatizer=WordNetLemmatizer()
 
 #Preprocesamineto de la coleccion. Devuelve un diccionario tal que la llave es el termino y el valor son los documentos en los que aparece el termino
-def cran_preprocessing():
-    file=open("cran/cran.all.1400")
+def collection_preprocessing(collection):
+    file=open(collection)
     term_docs={}
     actual_document=0
     for line in file:
         if line[1]=='I':
             actual_document+=1
-        elif line[1]=='T' or line[1]=='W':
+        elif line[1]=='T' or line[1]=='W'or line[1]=='A' or line[1]=='B':
             continue
-        elif line[1]=='A' or line[1]=='B':
-            file.readline()
         else:
             words=word_tokenize(line)
             tagged=nltk.pos_tag(words)
@@ -95,8 +93,8 @@ def cran_preprocessing():
     return term_docs,actual_document
 
 #Preprocesamiento de la coleccion. Deveulve de forma perezosa un diccionario por cada documento que indica la frecuencia de cada termino el documento, ademas se devuelve un entero que representa la frecuencia maxima de un termino en el documento
-def terms_freq_doc():
-    file=open("cran/cran.all.1400")
+def terms_freq_doc(collection):
+    file=open(collection)
     document_terms_freq=None
     max_freq=0
     for line in file:
@@ -105,10 +103,8 @@ def terms_freq_doc():
                 yield document_terms_freq,max_freq
             document_terms_freq={}
             max_freq=0
-        elif line[1]=='T' or line[1]=='W':
+        elif line[1]=='T' or line[1]=='W'or line[1]=='A' or line[1]=='B':
             continue
-        elif line[1]=='A' or line[1]=='B':
-            file.readline()
         else:
             words=word_tokenize(line)
             tagged=nltk.pos_tag(words)
@@ -128,8 +124,8 @@ def terms_freq_doc():
     yield document_terms_freq,max_freq
     file.close()
     
-def limits_documents():
-    file=open("cran/cran.all.1400")
+def limits_documents(collection):
+    file=open(collection)
     
     limits=[]
     in_document=False  

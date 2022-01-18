@@ -10,6 +10,8 @@ from Rocchio import Rocchio
    
 if __name__=='__main__':
     
+    colection='med/MED.ALL'
+    
     file=open("idfs.json","r")
     idfs=json.load(file)
     file.close()
@@ -68,7 +70,7 @@ if __name__=='__main__':
     
         sim_docs=sim_docs_query(docs, query_weights, 0.04)
     
-        file=open("cran/cran.all.1400")
+        file=open(colection)
         lines=file.readlines()
         file.close()
     
@@ -126,7 +128,7 @@ if __name__=='__main__':
             relevants=set()
             irrelevants=set()        
     
-            file=open("cran/cran.all.1400")
+            file=open(colection)
             lines=file.readlines()
             file.close()
     

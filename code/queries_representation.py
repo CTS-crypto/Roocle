@@ -1,6 +1,6 @@
 import json
 from docs_representation import calculate_tfijs
-from queries_preprocess import queries_preprocessing,cran_recovered_documents
+from queries_preprocess import queries_preprocessing
 
 #calcula los vectores de pesos para las consultas
 def calculate_weigths_queries(a,idfs,terms_freq):
@@ -22,13 +22,10 @@ if __name__=='__main__':
     idfs=json.load(file)
     file.close()
     
-    vecs_queries=calculate_weigths_queries(0.5, idfs, queries_preprocessing(idfs))
-    recovered_documents=cran_recovered_documents()
+    collection='med/MED.QRY'
+    
+    vecs_queries=calculate_weigths_queries(0.5, idfs, queries_preprocessing(collection,idfs))
 
     #guarda los vectores de pesos para las consultas
     with open('vecs_queries.json','w') as fout:
         json.dump(vecs_queries, fout)
-
-    #guarda la cantidad de documentos que se deben recuperar para cada consulta    
-    with open('recovered_documents.json','w') as fout:
-        json.dump(recovered_documents, fout)

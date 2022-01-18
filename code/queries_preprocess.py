@@ -52,8 +52,8 @@ def query_preprocessing(query,idfs):
     
 
 #Preprocesamiento de las consultas. Devuele un diccionario por cada consulta que indica la fecuencia de cada termino en la consulta, ademas de un entero que indica a frecuencia maxima de un termino en la consulta 
-def queries_preprocessing(idfs):
-    file=open("cran/cran.qry")
+def queries_preprocessing(colection,idfs):
+    file=open(colection)
     query_terms_freq=None
     max_freq=0
     for line in file:
@@ -82,17 +82,3 @@ def queries_preprocessing(idfs):
                     max_freq=max(max_freq,query_terms_freq[gramatical_root])
     yield query_terms_freq,max_freq
     file.close()
- 
-#devuelve una lista que indica cuantos documentos se deben devolver para cada consulta    
-def cran_recovered_documents():
-    file=open("cran/cranqrel")
-    actual=0
-    recovered_documents=[]
-    for line in file:
-        items=line.split()
-        if int(items[0])!=actual:
-            actual+=1
-            recovered_documents.append(1)
-        else:
-            recovered_documents[actual-1]+=1
-    return recovered_documents

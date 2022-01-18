@@ -11,21 +11,20 @@ def _get_REL_rec():
     queries=json.load(file)
     file.close()
 
-    #carga la cantidad de documentos que se deberan recuperar para cada consulta
-    file=open('recovered_documents.json','r')
-    recovered_documents=json.load(file)
-    file.close()
-    rec=sim_docs_queries(docs,queries,[0.1 for i in queries])
+    rec=sim_docs_queries(docs,queries,[0.08 for i in queries])
 
-    file=open('cran/cranqrel')
+    file=open('med/MED.REL')
     
     REL=[0]*len(queries)
     for i in file.readlines():
         k=i.split()
         if REL[int(k[0])-1]==0:
             REL[int(k[0])-1]=set()
-            
-        REL[int(k[0])-1].add(int(k[1]))
+        
+        if int(k[1])==0:
+            REL[int(k[0])-1].add(int(k[2]))
+        else:        
+            REL[int(k[0])-1].add(int(k[1]))
     file.close()
 
     return REL,rec
@@ -92,7 +91,6 @@ def _fallout(RI,I):
         return RI/I
     except (Exception):
         print("Division por cero")
-
 
 def precision():
     REL,rec=_get_REL_rec()
@@ -184,6 +182,7 @@ def fallout():
 
 
     return 0
+
 def r_fallout(r):
     REL,rec=_get_REL_rec()
     I=[]
@@ -233,9 +232,9 @@ def r_precision(r):
 print('Precision promedio: ',precision())
 print('Recobrado promedio: ',recall())
 print('R_precision5 promedio: ',r_precision(5))
-print('Medida_f promedio: ',f_medida(0))
-print('Medida_f promedio: ',f_medida(1))
-print('Medida_f promedio: ',f_medida(2))
+print('Medida_f0 promedio: ',f_medida(0))
+print('Medida_f1 promedio: ',f_medida(1))
+print('Medida_f2 promedio: ',f_medida(2))
 print('Medida_f1 promedio: ',f1_medida())
 print('fallout promedio: ',fallout())
 print('R_fallout5 promedio: ',r_fallout(5))

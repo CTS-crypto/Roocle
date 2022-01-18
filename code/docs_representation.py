@@ -1,5 +1,5 @@
 from math import log10
-from cran_preprocess import cran_preprocessing,terms_freq_doc,limits_documents
+from collection_preprocess import collection_preprocessing,terms_freq_doc,limits_documents
 import json
 
 #calcula idf
@@ -33,9 +33,11 @@ def calculate_weigths(terms_freq_doc,idfs):
 
 if __name__=='__main__':
     
-    idfs=calculate_idfs(cran_preprocessing())
-    vecs_docs=calculate_weigths(terms_freq_doc(),idfs)
-    limits=limits_documents()
+    collection="med/MED.ALL"
+    
+    idfs=calculate_idfs(collection_preprocessing(collection))
+    vecs_docs=calculate_weigths(terms_freq_doc(collection),idfs)
+    limits=limits_documents(collection)
 
     #guarda los pesos
     with open('vecs_docs.json','w') as fout:
