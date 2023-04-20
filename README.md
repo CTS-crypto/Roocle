@@ -1,2 +1,2 @@
-#Proyecto de SRI
+Proyecto de SRI
  
